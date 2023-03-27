@@ -64,18 +64,18 @@ Loop:
 
 PHunThous:
     clc             
-    lda HunThousands     ; Load Thousands Place
+    lda HunThousands     ; Load Hundred Thousands Place
     BEQ PTenThous
-    adc #$30          ; Make it ascii
-    cmp #$3A          ; Check if >9
-    BEQ ZeroHunThousands ; Bring back Zero
+    adc #$30             ; Make it ascii
+    cmp #$3A             ; Check if >9
+    BEQ ZeroHunThousands ; Bring var back to Zero
     jsr PrintLCDChar
 PTenThous:
     clc
     BEQ GoTenThous
     jmp PrintTenThous
 GoTenThous:           
-    lda TenThousands     ; Load Thousands Place
+    lda TenThousands     ; Load Ten Thousands Place
     BEQ PThous
 PrintTenThous
     lda TenThousands
@@ -184,8 +184,9 @@ IncTen:
     lda #$00
     sta Ones
     jmp Loop
-
-    lcd_wait:
+    
+    
+lcd_wait:
   pha
   lda #%11110000  ; LCD data is input
   sta DDRB
@@ -195,7 +196,7 @@ lcdbusy:
   lda #(RW | E)
   sta PORTB
   lda PORTB       ; Read high nibble
-  pha             ; and put on stack since it has the busy     flag
+  pha             ; and put on stack since it has the busy flag
   lda #RW
   sta PORTB
   lda #(RW | E)
